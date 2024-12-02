@@ -33,7 +33,7 @@ jobs:
       - name: pull image from docker hub
         run: docker pull mr9bady/test-repo:latest
       - name: run docker container
-        run: docker run -d -p 5000:5000 --name mr9bady test-nodjs/test-app
+        run: docker run -d -p 5000:5000 --name mr9bady mr9bady/test-repo
         
       # - name: Set Node.js 16.x
       #   uses: actions/setup-node@v3
