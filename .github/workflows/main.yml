@@ -25,19 +25,17 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          host: ubuntu
           ssh-private-key: ${{ secrets.SSH_PRIVATEKEY }}
       - name: docker install on ec2
         run: |
-          sudo apt update -y
+          sudo apt update && upgrade -y
           sudo apt install docker.io -y
           sudo systemclt start docker
-          sudo chmod 777 /var/run/docke.sock
-          docker system prune -a --volumes
+          sudo docker system prune -a --volumes
       - name: pull image from docker hub
-        run: docker pull test-nodjs/test-app:latest
+        run: sudo docker pull test-nodjs/test-app:latest
       - name: run docker container
-        run: docker run -d -p 5000:5000 --name mr9bady test-nodjs/test-app
+        run: sudo docker run -d -p 5000:5000 --name mr9bady test-nodjs/test-app
         
       # - name: Set Node.js 16.x
       #   uses: actions/setup-node@v3
