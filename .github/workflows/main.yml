@@ -19,11 +19,11 @@ jobs:
            docker tag test-nodjs/test-app mr9bady/test-repo:latest 
            docker push mr9bady/test-repo:latest
   deploy:
-    needs: build
-    runs-on: ubuntu-latest
+    name: deploy ec2
+    uses: appleboy/ssh-action@master
+    #runs-on: ubuntu-latest
     steps:
       - name: Deploy on EC2
-        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
