@@ -28,8 +28,6 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATEKEY }}
-      # - name: logine to docker hub
-      #   run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: pull image from docker hub
         run: docker pull mr9bady/test-repo:latest
       - name: run docker container
