@@ -1,8 +1,8 @@
-name: CICD
+name: TEST-CICD-EC2
 
 on:
-  push:
-    branches: [main,master]
+  workflow_dispatch:
+  branches: [mr9bady/mr09]
     
 jobs:
   build:
@@ -10,11 +10,34 @@ jobs:
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
-      - name: Set Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - name: Install Dependencies
-        run : npm install
-      - name: Test Project
-        run: npm test
+      - name: logine to docker hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: build docker image
+        run: docker build -t test-nodjs/test-app .
+      - name: push image to the docker hub
+        run: docker push test-nodjs/test-app:latest
+
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: docker install on ec2
+        run: |
+          sudo apt update -y
+          sudo apt install docker.io -y
+          sudo systemclt start docker
+          sudo chmod 777 /var/run/docke.sock
+          docker system prune -a --volumes
+      - name: pull image from docker hub
+        run: docker pull test-nodjs/test-app:latest
+      - name: run docker container
+        run: docker run -d -p 5000:5000 --name mr9bady test-nodjs/test-app
+        
+      # - name: Set Node.js 16.x
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16.x
+      # - name: Install Dependencies
+      #   run : npm install
+      # - name: Test Project
+      #   run: npm test
