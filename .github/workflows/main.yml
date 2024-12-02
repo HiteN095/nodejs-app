@@ -15,7 +15,8 @@ jobs:
       - name: build docker image
         run: docker build -t test-nodjs/test-app .
       - name: push image to the docker hub
-        run: docker push test-nodjs/test-app:latest
+        run: docker tag test-nodjs/test-app mr9bady/test-repo:latest
+
 
   deploy:
     needs: build
