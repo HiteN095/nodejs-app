@@ -19,7 +19,7 @@ jobs:
            docker tag test-nodjs/test-app mr9bady/test-repo:latest 
            docker push mr9bady/test-repo:latest
 
-deploy:
+ deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
