@@ -31,9 +31,9 @@ jobs:
       # - name: logine to docker hub
       #   run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: pull image from docker hub
-        run: sudo docker pull test-nodjs/test-app:latest
+        run: docker pull mr9bady/test-repo:latest
       - name: run docker container
-        run: sudo docker run -d -p 5000:5000 --name mr9bady test-nodjs/test-app
+        run: docker run -d -p 5000:5000 --name mr9bady test-nodjs/test-app
         
       # - name: Set Node.js 16.x
       #   uses: actions/setup-node@v3
