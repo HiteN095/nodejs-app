@@ -28,10 +28,13 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATEKEY }}
       - name: docker install on ec2
         run: |
-          sudo apt update && upgrade -y
-          sudo apt install docker.io -y
-          sudo systemclt start docker
-          sudo docker system prune -a --volumes
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOSTNAME }} << 'EOF'
+            sudo apt update -y
+            sudo apt install docker.io -y
+            sudo systemctl start docker
+            sudo chmod 666 /var/run/docker.sock
+            docker system prune -a --volumes -f
+          EOF
       - name: pull image from docker hub
         run: sudo docker pull test-nodjs/test-app:latest
       - name: run docker container
