@@ -22,7 +22,7 @@ jobs:
 
   deploy:
     needs: build
-    host: ubuntu
+    runs-on: ubuntu-lestest
     steps:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
