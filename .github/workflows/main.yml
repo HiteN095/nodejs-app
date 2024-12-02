@@ -2,7 +2,7 @@ name: TEST-CICD-EC2
 
 on:
   workflow_dispatch:
-    branches: [main]
+    branches: [mr9bady/test-repo]
     
 jobs:
   build:
@@ -10,6 +10,12 @@ jobs:
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
+      - name: logine to docker hub
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      - name: build docker image
+        run: docker build -t test-nodjs/test-app .
+      - name: push image to the docker hub
+        run: docker tag test-nodjs/test-app mr9bady/test-repo:latest
 
 
   deploy:
@@ -20,12 +26,8 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATEKEY }}
-      -- name: logine to docker hub
+      - name: logine to docker hub
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-      - name: build docker image
-        run: docker build -t test-nodjs/test-app .
-      - name: push image to the docker hub
-        run: docker tag test-nodjs/test-app mr9bady/test-repo:latest
       - name: pull image from docker hub
         run: sudo docker pull test-nodjs/test-app:latest
       - name: run docker container
