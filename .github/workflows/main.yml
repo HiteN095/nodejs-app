@@ -19,11 +19,10 @@ jobs:
            docker tag test-nodjs/test-app mr9bady/test-repo:latest 
            docker push mr9bady/test-repo:latest
 
-
  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+     needs: build
+     runs-on: ubuntu-latest
+     steps:
       - name: Deploy on EC2
         uses: appleboy/ssh-action@master
         with:
