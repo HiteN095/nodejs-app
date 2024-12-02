@@ -2,7 +2,7 @@ name: TEST-CICD-EC2
 
 on:
   workflow_dispatch:
-    branches: [mr9bady/mr09]
+    branches: [mr9bady/test-repo]
     
 jobs:
   build:
