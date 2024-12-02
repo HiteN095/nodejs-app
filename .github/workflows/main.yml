@@ -20,14 +20,16 @@ jobs:
            docker push mr9bady/test-repo:latest
 
 
-  deploy:
-   needs: build
-   runs-on: self-hosted
+ deploy:
+    needs: build
+    runs-on: ubuntu-latest
     steps:
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Deploy on EC2
+        uses: appleboy/ssh-action@master
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATEKEY }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATEKEY }}
       # - name: logine to docker hub
       #   run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: pull image from docker hub
