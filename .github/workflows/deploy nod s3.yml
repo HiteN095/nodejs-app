@@ -1,9 +1,9 @@
-name: Deploy React App to S3
+name: Deploy Node.js App to S3
 
 on:
   workflow_dispatch:
     branches:
-      - master  # Trigger the workflow on pushes to the 'main' branch
+      - master  # Trigger the workflow on pushes to the 'master' branch
 
 jobs:
   deploy:
@@ -18,13 +18,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Replace with the version your React app requires
+          node-version: '16' # Replace with the version your app requires
 
-      # Step 3: Install dependencies and build the React app
-      - name: Install Dependencies and Build
-        run: |
-          npm install
-          npm run build
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm install
 
       # Step 4: Deploy to S3 using IAM User Credentials
       - name: Deploy to S3
@@ -33,4 +31,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # IAM User Secret Access Key
           AWS_REGION: ap-south-1 # Replace with your AWS region
         run: |
-          aws s3 sync build/ s3://testcode01 --delete
+          aws s3 sync . s3://testcode01 --delete --exclude ".git/*" --exclude "node_modules/*"
