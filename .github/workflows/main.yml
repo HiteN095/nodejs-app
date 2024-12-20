@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy on EC2
-        uses: cross-the-world/ssh-pipeline@master
+        uses: appleboy/ssh-action
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
